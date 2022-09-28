@@ -7,11 +7,15 @@ framework.
 
 Run the `ginvif` binary supplying:
 
-- `--bind`, `-b`: Address and port to serve requests on (optional).
+- `--bind`, `-b`: Address and port to serve requests on. (optional)
 - `--url`, `-a`: Base URL of the Onvif device.
 - `--username`, `-u`: Username for authentication with the Onvif device.
 - `--password`, `-p`: Password for authentication with the Onvif device.
-- `--verbose`, `-v`: Print sent and received requests.
+- `--verbose`, `-v`: Print sent and received requests. (optional)
+
+To test the server, navigate your browser to the `--bind` address suffixed by `/swagger/index.html`
+and use the "Try it!" SwaggerUI feature to send a call to the Onvif device. By default, the address
+is: http://localhost:8081/swagger/index.html.
 
 ## Swagger
 
