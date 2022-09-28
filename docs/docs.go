@@ -24,6 +24,472 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/ptz/absolute-move": {
+            "post": {
+                "description": "The speed argument is optional. If an x/y speed value is given it is up to the device to either use the x value as absolute resoluting speed vector or to map x and y to the component speed. If the speed argument is omitted, the default speed set by the PTZConfiguration will be used.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ptz"
+                ],
+                "summary": "Operation to move pan,tilt or zoom to a absolute destination.",
+                "parameters": [
+                    {
+                        "description": "JSON request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.AbsoluteMove"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.AbsoluteMoveResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ptz/continuous-move": {
+            "post": {
+                "description": "The operation is supported if the PTZNode supports at least one continuous Pan/Tilt or Zoom space. If the space argument is omitted, the default space set by the PTZConfiguration will be used.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ptz"
+                ],
+                "summary": "Operation for continuous Pan/Tilt and Zoom movements.",
+                "parameters": [
+                    {
+                        "description": "JSON request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.ContinuousMove"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.ContinuousMoveResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ptz/create-preset-tour": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ptz"
+                ],
+                "summary": "Operation to create a preset tour for the selected media profile.",
+                "parameters": [
+                    {
+                        "description": "JSON request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.CreatePresetTour"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.CreatePresetTourResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ptz/geo-move": {
+            "post": {
+                "description": "The speed argument is optional. If an x/y speed value is given it is up to the device to either use the x value as absolute resoluting speed vector or to map x and y to the component speed. If the speed argument is omitted, the default speed set by the PTZConfiguration will be used. The area height and area dwidth parameters are optional, they can be used independently and may be used by the device to automatically determine the best zoom level to show the target.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ptz"
+                ],
+                "summary": "Operation to move pan,tilt or zoom to point to a destination based on the geolocation of the target.",
+                "parameters": [
+                    {
+                        "description": "JSON request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.GeoMove"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.GeoMoveResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ptz/get-compatible-configurations": {
+            "post": {
+                "description": "A device providing more than one PTZConfiguration or more than one VideoSourceConfiguration or which has any other resource interdependency between PTZConfiguration entities and other resources listable in a media profile should implement this operation. PTZConfiguration entities returned by this operation shall not fail on adding them to the referenced media profile.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ptz"
+                ],
+                "summary": "Operation to get all available PTZConfigurations that can be added to the referenced media profile.",
+                "parameters": [
+                    {
+                        "description": "JSON request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.GetCompatibleConfigurations"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.GetCompatibleConfigurationsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ptz/get-configuration": {
+            "post": {
+                "description": "The default Position/Translation/Velocity Spaces are introduced to allow NVCs sending move requests without the need to specify a certain coordinate system. The default Speeds are introduced to control the speed of move requests (absolute, relative, preset), where no explicit speed has been set. The allowed pan and tilt range for Pan/Tilt Limits is defined by a two-dimensional space range that is mapped to a specific Absolute Pan/Tilt Position Space. At least one Pan/Tilt Position Space is required by the PTZNode to support Pan/Tilt limits. The limits apply to all supported absolute, relative and continuous Pan/Tilt movements. The limits shall be checked within the coordinate system for which the limits have been specified. That means that even if movements are specified in a different coordinate system, the requested movements shall be transformed to the coordinate system of the limits where the limits can be checked. When a relative or continuous movements is specified, which would leave the specified limits, the PTZ unit has to move along the specified limits. The Zoom Limits have to be interpreted accordingly.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ptz"
+                ],
+                "summary": "Get a specific PTZconfiguration from the device, identified by its reference token or name.",
+                "parameters": [
+                    {
+                        "description": "JSON request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.GetConfiguration"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.GetConfigurationResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ptz/get-configurations": {
+            "post": {
+                "description": "The default Position/Translation/Velocity Spaces are introduced to allow NVCs sending move requests without the need to specify a certain coordinate system. The default Speeds are introduced to control the speed of move requests (absolute, relative, preset), where no explicit speed has been set. The allowed pan and tilt range for Pan/Tilt Limits is defined by a two-dimensional space range that is mapped to a specific Absolute Pan/Tilt Position Space. At least one Pan/Tilt Position Space is required by the PTZNode to support Pan/Tilt limits. The limits apply to all supported absolute, relative and continuous Pan/Tilt movements. The limits shall be checked within the coordinate system for which the limits have been specified. That means that even if movements are specified in a different coordinate system, the requested movements shall be transformed to the coordinate system of the limits where the limits can be checked. When a relative or continuous movements is specified, which would leave the specified limits, the PTZ unit has to move along the specified limits. The Zoom Limits have to be interpreted accordingly.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ptz"
+                ],
+                "summary": "Get all the existing PTZConfigurations from the device.",
+                "parameters": [
+                    {
+                        "description": "JSON request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.GetConfigurations"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.GetConfigurationsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ptz/get-configurations-options": {
+            "post": {
+                "description": "Therefore, the options MAY differ depending on whether the PTZ Configuration is assigned to a Profile containing a Video Source Configuration. In that case, the options may additionally contain coordinate systems referring to the image coordinate system described by the Video Source Configuration. If the PTZ Node supports continuous movements, it shall return a Timeout Range within which Timeouts are accepted by the PTZ Node.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ptz"
+                ],
+                "summary": "List supported coordinate systems including their range limitations.",
+                "parameters": [
+                    {
+                        "description": "JSON request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.GetConfigurationOptions"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.GetConfigurationOptionsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ptz/get-node": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ptz"
+                ],
+                "summary": "Get a specific PTZ Node identified by a reference token or a name.",
+                "parameters": [
+                    {
+                        "description": "JSON request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.GetNode"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.GetNodeResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    }
+                }
+            }
+        },
         "/ptz/get-nodes": {
             "post": {
                 "description": "A PTZ-capable device may have multiple PTZ Nodes. The PTZ Nodes may represent mechanical PTZ drivers, uploaded PTZ drivers or digital PTZ drivers. PTZ Nodes are the lowest level entities in the PTZ control API and reflect the supported PTZ capabilities. The PTZ Node is referenced either by its name or by its reference token.",
@@ -53,6 +519,159 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/wsdl.GetNodesResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ptz/get-preset-tour": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ptz"
+                ],
+                "summary": "Operation to request a specific PTZ preset tour in the selected media profile.",
+                "parameters": [
+                    {
+                        "description": "JSON request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.GetPresetTour"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.GetPresetTourResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ptz/get-preset-tour-options": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ptz"
+                ],
+                "summary": "Operation to request available options to configure PTZ preset tour.",
+                "parameters": [
+                    {
+                        "description": "JSON request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.GetPresetTourOptions"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.GetPresetTourOptionsResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ptz/get-preset-tours": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ptz"
+                ],
+                "summary": "Operation to request PTZ preset tours in the selected media profiles.",
+                "parameters": [
+                    {
+                        "description": "JSON request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.GetPresetTours"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.GetPresetToursResponse"
                         }
                     },
                     "400": {
@@ -127,9 +746,836 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/ptz/get-service-capabilities": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ptz"
+                ],
+                "summary": "Returns the capabilities of the PTZ service. The result is returned in a typed answer.",
+                "parameters": [
+                    {
+                        "description": "JSON request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.GetServiceCapabilities"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.GetServiceCapabilitiesResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ptz/get-status": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ptz"
+                ],
+                "summary": "Operation to request PTZ status for the Node in the selected profile.",
+                "parameters": [
+                    {
+                        "description": "JSON request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.GetStatus"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.GetStatusResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ptz/goto-home-position": {
+            "post": {
+                "description": "The operation is supported if the HomeSupported element in the PTZNode is true.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ptz"
+                ],
+                "summary": "Operation to move the PTZ device to it's \"home\" position.",
+                "parameters": [
+                    {
+                        "description": "JSON request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.GotoHomePosition"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.GotoHomePositionResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ptz/goto-preset": {
+            "post": {
+                "description": "The operation is supported if there is support for at least on PTZ preset by the PTZNode.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ptz"
+                ],
+                "summary": "Operation to go to a saved preset position for the PTZNode in the selected profile.",
+                "parameters": [
+                    {
+                        "description": "JSON request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.GotoPreset"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.GotoPresetResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ptz/modify-preset-tour": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ptz"
+                ],
+                "summary": "Operation to modify a preset tour for the selected media profile.",
+                "parameters": [
+                    {
+                        "description": "JSON request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.ModifyPresetTour"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.ModifyPresetTourResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ptz/move-and-start-tracking": {
+            "post": {
+                "description": "An existing Speed argument overrides DefaultSpeed of the corresponding PTZ configuration during movement to the requested position. If spaces are referenced within the Speed argument, they shall be speed spaces supported by the PTZ node. If the detection and the tracking are done in the same device, an ObjectID reference can be passed as an argument, in order to specify which object should be tracked. The operation shall fail if the requested absolute position is not reachable.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ptz"
+                ],
+                "summary": "Operation to send an an atomic command to the device: move the camera to a wanted position and then delegate the PTZ control to the tracking algorithm.",
+                "parameters": [
+                    {
+                        "description": "JSON request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.MoveAndStartTracking"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.MoveAndStartTrackingResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ptz/operate-preset-tour": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ptz"
+                ],
+                "summary": "Operation to perform specific operation on the preset tour in selected media profile.",
+                "parameters": [
+                    {
+                        "description": "JSON request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.OperatePresetTour"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.OperatePresetTourResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ptz/relative-move": {
+            "post": {
+                "description": "The operation is supported if the PTZNode supports at least one relative Pan/Tilt or Zoom space. The speed argument is optional. If an x/y speed value is given it is up to the device to either use the x value as absolute resoluting speed vector or to map x and y to the component speed. If the speed argument is omitted, the default speed set by the PTZConfiguration will be used.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ptz"
+                ],
+                "summary": "Operation for Relative Pan/Tilt and Zoom Move.",
+                "parameters": [
+                    {
+                        "description": "JSON request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.RelativeMove"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.RelativeMoveResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ptz/remove-preset": {
+            "post": {
+                "description": "The operation is supported if the PresetPosition capability exists for teh Node in the selected profile.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ptz"
+                ],
+                "summary": "Operation to remove a PTZ preset for the Node in the selected profile.",
+                "parameters": [
+                    {
+                        "description": "JSON request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.RemovePreset"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.RemovePresetResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ptz/remove-preset-tour": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ptz"
+                ],
+                "summary": "Operation to delete a specific preset tour from the media profile.",
+                "parameters": [
+                    {
+                        "description": "JSON request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.RemovePresetTour"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.RemovePresetTourResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ptz/send-auxiliary-command": {
+            "post": {
+                "description": "The operation is supported if the AuxiliarySupported element of the PTZNode is true",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ptz"
+                ],
+                "summary": "Operation to send auxiliary commands to the PTZ device mapped by the PTZNode in the selected profile.",
+                "parameters": [
+                    {
+                        "description": "JSON request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.SendAuxiliaryCommand"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.SendAuxiliaryCommandResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ptz/set-configuration": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ptz"
+                ],
+                "summary": "Set/update a existing PTZConfiguration on the device.",
+                "parameters": [
+                    {
+                        "description": "JSON request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.SetConfiguration"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.SetConfigurationResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ptz/set-home-position": {
+            "post": {
+                "description": "The SetHomePosition command returns with a failure if the “home” position is fixed and cannot be overwritten. If the SetHomePosition is successful, it is possible to recall the Home Position with the GotoHomePosition command.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ptz"
+                ],
+                "summary": "Operation to save current position as the home position.",
+                "parameters": [
+                    {
+                        "description": "JSON request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.SetHomePosition"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.SetHomePositionResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ptz/set-preset": {
+            "post": {
+                "description": "In order to create a new preset, the SetPresetRequest contains no PresetToken. If creation is successful, the Response contains the PresetToken which uniquely identifies the Preset. An existing Preset can be overwritten by specifying the PresetToken of the corresponding Preset. In both cases (overwriting or creation) an optional PresetName can be specified. The operation fails if the PTZ device is moving during the SetPreset operation. The device MAY internally save additional states such as imaging properties in the PTZ Preset which then should be recalled in the GotoPreset operation. The operation is supported if there is support for at least on PTZ preset by the PTZNode.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ptz"
+                ],
+                "summary": "The SetPreset command saves the current device position parameters so that the device can move to the saved preset position through the GotoPreset operation.",
+                "parameters": [
+                    {
+                        "description": "JSON request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.SetPreset"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.SetPresetResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ptz/stop": {
+            "post": {
+                "description": "If no stop argument for pan, tilt or zoom is set, the device will stop all ongoing pan, tilt and zoom movements.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "ptz"
+                ],
+                "summary": "Operation to stop ongoing pan, tilt and zoom movements of absolute relative and continuous type.",
+                "parameters": [
+                    {
+                        "description": "JSON request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.Stop"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/wsdl.StopResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    },
+                    "501": {
+                        "description": "Not Implemented",
+                        "schema": {
+                            "$ref": "#/definitions/util.Error"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
+        "schema.DurationRange": {
+            "type": "object",
+            "properties": {
+                "Max": {
+                    "type": "string"
+                },
+                "Min": {
+                    "type": "string"
+                }
+            }
+        },
+        "schema.EFlip": {
+            "type": "object",
+            "properties": {
+                "Mode": {
+                    "description": "Parameter to enable/disable E-Flip feature.",
+                    "type": "string"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "schema.EFlipOptions": {
+            "type": "object",
+            "properties": {
+                "Extension": {
+                    "$ref": "#/definitions/schema.EFlipOptionsExtension"
+                },
+                "Mode": {
+                    "description": "Options of EFlip mode parameter.",
+                    "type": "array",
+                    "items": {
+                        "description": "Parameter to enable/disable E-Flip feature.",
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "schema.EFlipOptionsExtension": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
         "schema.FloatRange": {
             "type": "object",
             "properties": {
@@ -141,6 +1587,247 @@ const docTemplate = `{
                 }
             }
         },
+        "schema.GeoLocation": {
+            "type": "object",
+            "properties": {
+                "elevation": {
+                    "type": "number"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "lat": {
+                    "type": "number"
+                },
+                "lon": {
+                    "type": "number"
+                }
+            }
+        },
+        "schema.IntRange": {
+            "type": "object",
+            "properties": {
+                "Max": {
+                    "type": "integer"
+                },
+                "Min": {
+                    "type": "integer"
+                }
+            }
+        },
+        "schema.PTControlDirection": {
+            "type": "object",
+            "properties": {
+                "EFlip": {
+                    "description": "Optional element to configure related parameters for E-Flip.",
+                    "$ref": "#/definitions/schema.EFlip"
+                },
+                "Extension": {
+                    "$ref": "#/definitions/schema.PTControlDirectionExtension"
+                },
+                "Reverse": {
+                    "description": "Optional element to configure related parameters for reversing of PT Control Direction.",
+                    "$ref": "#/definitions/schema.Reverse"
+                }
+            }
+        },
+        "schema.PTControlDirectionExtension": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "schema.PTControlDirectionOptions": {
+            "type": "object",
+            "properties": {
+                "EFlip": {
+                    "description": "Supported options for EFlip feature.",
+                    "$ref": "#/definitions/schema.EFlipOptions"
+                },
+                "Extension": {
+                    "$ref": "#/definitions/schema.PTControlDirectionOptionsExtension"
+                },
+                "Reverse": {
+                    "description": "Supported options for Reverse feature.",
+                    "$ref": "#/definitions/schema.ReverseOptions"
+                }
+            }
+        },
+        "schema.PTControlDirectionOptionsExtension": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "schema.PTZConfiguration": {
+            "type": "object",
+            "properties": {
+                "DefaultAbsolutePantTiltPositionSpace": {
+                    "description": "If the PTZ Node supports absolute Pan/Tilt movements, it shall specify one Absolute Pan/Tilt Position Space as default.",
+                    "type": "string"
+                },
+                "DefaultAbsoluteZoomPositionSpace": {
+                    "description": "If the PTZ Node supports absolute zoom movements, it shall specify one Absolute Zoom Position Space as default.",
+                    "type": "string"
+                },
+                "DefaultContinuousPanTiltVelocitySpace": {
+                    "description": "If the PTZ Node supports continuous Pan/Tilt movements, it shall specify one Continuous Pan/Tilt Velocity Space as default.",
+                    "type": "string"
+                },
+                "DefaultContinuousZoomVelocitySpace": {
+                    "description": "If the PTZ Node supports continuous zoom movements, it shall specify one Continuous Zoom Velocity Space as default.",
+                    "type": "string"
+                },
+                "DefaultPTZSpeed": {
+                    "description": "If the PTZ Node supports absolute or relative PTZ movements, it shall specify corresponding default Pan/Tilt and Zoom speeds.",
+                    "$ref": "#/definitions/schema.PTZSpeed"
+                },
+                "DefaultPTZTimeout": {
+                    "description": "If the PTZ Node supports continuous movements, it shall specify a default timeout, after which the movement stops.",
+                    "type": "string"
+                },
+                "DefaultRelativePanTiltTranslationSpace": {
+                    "description": "If the PTZ Node supports relative Pan/Tilt movements, it shall specify one RelativePan/Tilt Translation Space as default.",
+                    "type": "string"
+                },
+                "DefaultRelativeZoomTranslationSpace": {
+                    "description": "If the PTZ Node supports relative zoom movements, it shall specify one Relative Zoom Translation Space as default.",
+                    "type": "string"
+                },
+                "Extension": {
+                    "$ref": "#/definitions/schema.PTZConfigurationExtension"
+                },
+                "MoveRamp": {
+                    "type": "integer"
+                },
+                "Name": {
+                    "description": "User readable name. Length up to 64 characters.",
+                    "type": "string"
+                },
+                "NodeToken": {
+                    "description": "A mandatory reference to the PTZ Node that the PTZ Configuration belongs to.",
+                    "type": "string"
+                },
+                "PanTiltLimits": {
+                    "description": "The Pan/Tilt limits element should be present for a PTZ Node that supports an absolute Pan/Tilt. If the element is present it signals the support for configurable Pan/Tilt limits. If limits are enabled, the Pan/Tilt movements shall always stay within the specified range. The Pan/Tilt limits are disabled by setting the limits to –INF or +INF.",
+                    "$ref": "#/definitions/schema.PanTiltLimits"
+                },
+                "PresetRamp": {
+                    "type": "integer"
+                },
+                "PresetTourRamp": {
+                    "type": "integer"
+                },
+                "UseCount": {
+                    "description": "Number of internal references currently using this configuration.",
+                    "type": "integer"
+                },
+                "ZoomLimits": {
+                    "description": "The Zoom limits element should be present for a PTZ Node that supports absolute zoom. If the element is present it signals the supports for configurable Zoom limits. If limits are enabled the zoom movements shall always stay within the specified range. The Zoom limits are disabled by settings the limits to -INF and +INF.",
+                    "$ref": "#/definitions/schema.ZoomLimits"
+                },
+                "token": {
+                    "description": "Token of the requested PTZConfiguration.",
+                    "type": "string"
+                }
+            }
+        },
+        "schema.PTZConfigurationExtension": {
+            "type": "object",
+            "properties": {
+                "Extension": {
+                    "$ref": "#/definitions/schema.PTZConfigurationExtension2"
+                },
+                "PTControlDirection": {
+                    "description": "Optional element to configure PT Control Direction related features.",
+                    "$ref": "#/definitions/schema.PTControlDirection"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "schema.PTZConfigurationExtension2": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "schema.PTZConfigurationOptions": {
+            "type": "object",
+            "properties": {
+                "Extension": {
+                    "$ref": "#/definitions/schema.PTZConfigurationOptions2"
+                },
+                "PTControlDirection": {
+                    "description": "Supported options for PT Direction Control.",
+                    "$ref": "#/definitions/schema.PTControlDirectionOptions"
+                },
+                "PTZRamps": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
+                },
+                "PTZTimeout": {
+                    "description": "A timeout Range within which Timeouts are accepted by the PTZ Node.",
+                    "$ref": "#/definitions/schema.DurationRange"
+                },
+                "Spaces": {
+                    "description": "A list of supported coordinate systems including their range limitations.",
+                    "$ref": "#/definitions/schema.PTZSpaces"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "schema.PTZConfigurationOptions2": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "schema.PTZMoveStatus": {
+            "type": "object",
+            "properties": {
+                "PanTilt": {
+                    "type": "string"
+                },
+                "Zoom": {
+                    "type": "string"
+                }
+            }
+        },
         "schema.PTZNode": {
             "type": "object",
             "properties": {
@@ -148,6 +1835,7 @@ const docTemplate = `{
                     "description": "A list of supported Auxiliary commands. If the list is not empty, the Auxiliary Operations MUST be available for this PTZ Node.",
                     "type": "array",
                     "items": {
+                        "description": "The response contains the auxiliary response.",
                         "type": "string"
                     }
                 },
@@ -227,6 +1915,251 @@ const docTemplate = `{
                 }
             }
         },
+        "schema.PTZPresetTourExtension": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "schema.PTZPresetTourOptions": {
+            "type": "object",
+            "properties": {
+                "AutoStart": {
+                    "description": "Indicates whether or not the AutoStart is supported.",
+                    "type": "boolean"
+                },
+                "StartingCondition": {
+                    "description": "Supported options for Preset Tour Starting Condition.",
+                    "$ref": "#/definitions/schema.PTZPresetTourStartingConditionOptions"
+                },
+                "TourSpot": {
+                    "description": "Supported options for Preset Tour Spot.",
+                    "$ref": "#/definitions/schema.PTZPresetTourSpotOptions"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "schema.PTZPresetTourPresetDetail": {
+            "type": "object",
+            "properties": {
+                "Home": {
+                    "description": "Option to specify the preset position with the home position of this PTZ Node. \"False\" to this parameter shall be treated as an invalid argument.",
+                    "type": "boolean"
+                },
+                "PTZPosition": {
+                    "description": "Option to specify the preset position with vector of PTZ node directly.",
+                    "$ref": "#/definitions/schema.PTZVector"
+                },
+                "PresetToken": {
+                    "description": "Option to specify the preset position with Preset Token defined in advance.",
+                    "type": "string"
+                },
+                "TypeExtension": {
+                    "$ref": "#/definitions/schema.PTZPresetTourTypeExtension"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "schema.PTZPresetTourPresetDetailOptions": {
+            "type": "object",
+            "properties": {
+                "Extension": {
+                    "$ref": "#/definitions/schema.PTZPresetTourPresetDetailOptionsExtension"
+                },
+                "Home": {
+                    "description": "An option to indicate Home postion for tour spots.",
+                    "type": "boolean"
+                },
+                "PanTiltPositionSpace": {
+                    "description": "Supported range of Pan and Tilt for tour spots.",
+                    "$ref": "#/definitions/schema.Space2DDescription"
+                },
+                "PresetToken": {
+                    "description": "A list of available Preset Tokens for tour spots.",
+                    "type": "array",
+                    "items": {
+                        "description": "A preset token.",
+                        "type": "string"
+                    }
+                },
+                "ZoomPositionSpace": {
+                    "description": "Supported range of Zoom for a tour spot.",
+                    "$ref": "#/definitions/schema.Space1DDescription"
+                }
+            }
+        },
+        "schema.PTZPresetTourPresetDetailOptionsExtension": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "schema.PTZPresetTourSpot": {
+            "type": "object",
+            "properties": {
+                "Extension": {
+                    "$ref": "#/definitions/schema.PTZPresetTourSpotExtension"
+                },
+                "PresetDetail": {
+                    "description": "Detail definition of preset position of the tour spot.",
+                    "$ref": "#/definitions/schema.PTZPresetTourPresetDetail"
+                },
+                "Speed": {
+                    "description": "Optional parameter to specify Pan/Tilt and Zoom speed on moving toward this tour spot.",
+                    "$ref": "#/definitions/schema.PTZSpeed"
+                },
+                "StayTime": {
+                    "description": "Optional parameter to specify time duration of staying on this tour sport.",
+                    "type": "string"
+                }
+            }
+        },
+        "schema.PTZPresetTourSpotExtension": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "schema.PTZPresetTourSpotOptions": {
+            "type": "object",
+            "properties": {
+                "PresetDetail": {
+                    "description": "Supported options for detail definition of preset position of the tour spot.",
+                    "$ref": "#/definitions/schema.PTZPresetTourPresetDetailOptions"
+                },
+                "StayTime": {
+                    "description": "Supported range of stay time for a tour spot.",
+                    "$ref": "#/definitions/schema.DurationRange"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "schema.PTZPresetTourStartingCondition": {
+            "type": "object",
+            "properties": {
+                "Direction": {
+                    "description": "Optional parameter to choose which direction the preset tour goes. Forward shall be chosen in case it is omitted.",
+                    "type": "string"
+                },
+                "Extension": {
+                    "$ref": "#/definitions/schema.PTZPresetTourStartingConditionExtension"
+                },
+                "RandomPresetOrder": {
+                    "type": "boolean"
+                },
+                "RecurringDuration": {
+                    "description": "Optional parameter to specify how long time duration the preset tour is recurred.",
+                    "type": "string"
+                },
+                "RecurringTime": {
+                    "description": "Optional parameter to specify how many times the preset tour is recurred.",
+                    "type": "integer"
+                }
+            }
+        },
+        "schema.PTZPresetTourStartingConditionExtension": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "schema.PTZPresetTourStartingConditionOptions": {
+            "type": "object",
+            "properties": {
+                "Direction": {
+                    "description": "Supported options for Direction of Preset Tour.",
+                    "type": "array",
+                    "items": {
+                        "description": "Optional parameter to choose which direction the preset tour goes. Forward shall be chosen in case it is omitted.",
+                        "type": "string"
+                    }
+                },
+                "Extension": {
+                    "$ref": "#/definitions/schema.PTZPresetTourStartingConditionOptionsExtension"
+                },
+                "RecurringDuration": {
+                    "description": "Supported range of Recurring Duration.",
+                    "$ref": "#/definitions/schema.DurationRange"
+                },
+                "RecurringTime": {
+                    "description": "Supported range of Recurring Time.",
+                    "$ref": "#/definitions/schema.IntRange"
+                }
+            }
+        },
+        "schema.PTZPresetTourStartingConditionOptionsExtension": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "schema.PTZPresetTourStatus": {
+            "type": "object",
+            "properties": {
+                "CurrentTourSpot": {
+                    "description": "Indicates a tour spot currently staying.",
+                    "$ref": "#/definitions/schema.PTZPresetTourSpot"
+                },
+                "Extension": {
+                    "$ref": "#/definitions/schema.PTZPresetTourStatusExtension"
+                },
+                "State": {
+                    "description": "Indicates state of this preset tour by Idle/Touring/Paused.",
+                    "type": "string"
+                }
+            }
+        },
+        "schema.PTZPresetTourStatusExtension": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
         "schema.PTZPresetTourSupported": {
             "type": "object",
             "properties": {
@@ -247,6 +2180,17 @@ const docTemplate = `{
             }
         },
         "schema.PTZPresetTourSupportedExtension": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "schema.PTZPresetTourTypeExtension": {
             "type": "object",
             "properties": {
                 "items": {
@@ -332,6 +2276,46 @@ const docTemplate = `{
                 }
             }
         },
+        "schema.PTZSpeed": {
+            "type": "object",
+            "properties": {
+                "PanTilt": {
+                    "description": "Pan and tilt speed. The x component corresponds to pan and the y component to tilt. If omitted in a request, the current (if any) PanTilt movement should not be affected.",
+                    "$ref": "#/definitions/schema.Vector2D"
+                },
+                "Zoom": {
+                    "description": "A zoom speed. If omitted in a request, the current (if any) Zoom movement should not be affected.",
+                    "$ref": "#/definitions/schema.Vector1D"
+                }
+            }
+        },
+        "schema.PTZStatus": {
+            "type": "object",
+            "properties": {
+                "Error": {
+                    "description": "States a current PTZ error.",
+                    "type": "string"
+                },
+                "MoveStatus": {
+                    "description": "Indicates if the Pan/Tilt/Zoom device unit is currently moving, idle or in an unknown state.",
+                    "$ref": "#/definitions/schema.PTZMoveStatus"
+                },
+                "Position": {
+                    "description": "Specifies the absolute position of the PTZ unit together with the Space references. The default absolute spaces of the corresponding PTZ configuration MUST be referenced within the Position element.",
+                    "$ref": "#/definitions/schema.PTZVector"
+                },
+                "UtcTime": {
+                    "description": "Specifies the UTC time when this status was generated.",
+                    "$ref": "#/definitions/soap.XSDDateTime"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
         "schema.PTZVector": {
             "type": "object",
             "properties": {
@@ -342,6 +2326,92 @@ const docTemplate = `{
                 "Zoom": {
                     "description": "A zoom position.",
                     "$ref": "#/definitions/schema.Vector1D"
+                }
+            }
+        },
+        "schema.PanTiltLimits": {
+            "type": "object",
+            "properties": {
+                "Range": {
+                    "description": "A range of pan tilt limits.",
+                    "$ref": "#/definitions/schema.Space2DDescription"
+                }
+            }
+        },
+        "schema.PresetTour": {
+            "type": "object",
+            "properties": {
+                "AutoStart": {
+                    "description": "Auto Start flag of the preset tour. True allows the preset tour to be activated always.",
+                    "type": "boolean"
+                },
+                "Extension": {
+                    "$ref": "#/definitions/schema.PTZPresetTourExtension"
+                },
+                "Name": {
+                    "description": "Readable name of the preset tour.",
+                    "type": "string"
+                },
+                "StartingCondition": {
+                    "description": "Parameters to specify the detail behavior of the preset tour.",
+                    "$ref": "#/definitions/schema.PTZPresetTourStartingCondition"
+                },
+                "Status": {
+                    "description": "Read only parameters to indicate the status of the preset tour.",
+                    "$ref": "#/definitions/schema.PTZPresetTourStatus"
+                },
+                "TourSpot": {
+                    "description": "A list of detail of touring spots including preset positions.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.PTZPresetTourSpot"
+                    }
+                },
+                "token": {
+                    "description": "Option to specify the preset position with Preset Token defined in advance.",
+                    "type": "string"
+                }
+            }
+        },
+        "schema.Reverse": {
+            "type": "object",
+            "properties": {
+                "Mode": {
+                    "description": "Parameter to enable/disable Reverse feature.",
+                    "type": "string"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "schema.ReverseOptions": {
+            "type": "object",
+            "properties": {
+                "Extension": {
+                    "$ref": "#/definitions/schema.ReverseOptionsExtension"
+                },
+                "Mode": {
+                    "description": "Options of Reverse mode parameter.",
+                    "type": "array",
+                    "items": {
+                        "description": "Parameter to enable/disable Reverse feature.",
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "schema.ReverseOptionsExtension": {
+            "type": "object",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         },
@@ -400,6 +2470,18 @@ const docTemplate = `{
                 }
             }
         },
+        "schema.ZoomLimits": {
+            "type": "object",
+            "properties": {
+                "Range": {
+                    "description": "A range of zoom limit",
+                    "$ref": "#/definitions/schema.Space1DDescription"
+                }
+            }
+        },
+        "soap.XSDDateTime": {
+            "type": "object"
+        },
         "util.Error": {
             "type": "object",
             "properties": {
@@ -408,6 +2490,214 @@ const docTemplate = `{
                 },
                 "message": {
                     "type": "string"
+                }
+            }
+        },
+        "wsdl.AbsoluteMove": {
+            "type": "object",
+            "properties": {
+                "Position": {
+                    "description": "A Position vector specifying the absolute target position.",
+                    "$ref": "#/definitions/schema.PTZVector"
+                },
+                "ProfileToken": {
+                    "description": "A reference to the MediaProfile.",
+                    "type": "string"
+                },
+                "Speed": {
+                    "description": "An optional Speed.",
+                    "$ref": "#/definitions/schema.PTZSpeed"
+                }
+            }
+        },
+        "wsdl.AbsoluteMoveResponse": {
+            "type": "object"
+        },
+        "wsdl.Capabilities": {
+            "type": "object",
+            "properties": {
+                "EFlip": {
+                    "type": "boolean"
+                },
+                "GetCompatibleConfigurations": {
+                    "type": "boolean"
+                },
+                "MoveAndTrack": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "MoveStatus": {
+                    "type": "boolean"
+                },
+                "Reverse": {
+                    "type": "boolean"
+                },
+                "StatusPosition": {
+                    "type": "boolean"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "wsdl.ContinuousMove": {
+            "type": "object",
+            "properties": {
+                "ProfileToken": {
+                    "description": "A reference to the MediaProfile.",
+                    "type": "string"
+                },
+                "Timeout": {
+                    "description": "An optional Timeout parameter.",
+                    "type": "string"
+                },
+                "Velocity": {
+                    "description": "A Velocity vector specifying the velocity of pan, tilt and zoom.",
+                    "$ref": "#/definitions/schema.PTZSpeed"
+                }
+            }
+        },
+        "wsdl.ContinuousMoveResponse": {
+            "type": "object"
+        },
+        "wsdl.CreatePresetTour": {
+            "type": "object",
+            "properties": {
+                "ProfileToken": {
+                    "description": "Option to specify the preset position with Preset Token defined in advance.",
+                    "type": "string"
+                }
+            }
+        },
+        "wsdl.CreatePresetTourResponse": {
+            "type": "object",
+            "properties": {
+                "PresetTourToken": {
+                    "description": "Option to specify the preset position with Preset Token defined in advance.",
+                    "type": "string"
+                }
+            }
+        },
+        "wsdl.GeoMove": {
+            "type": "object",
+            "properties": {
+                "AreaHeight": {
+                    "description": "An optional indication of the height of the target/area.",
+                    "type": "number"
+                },
+                "AreaWidth": {
+                    "description": "An optional indication of the width of the target/area.",
+                    "type": "number"
+                },
+                "ProfileToken": {
+                    "description": "A reference to the MediaProfile.",
+                    "type": "string"
+                },
+                "Speed": {
+                    "description": "An optional Speed.",
+                    "$ref": "#/definitions/schema.PTZSpeed"
+                },
+                "Target": {
+                    "description": "The geolocation of the target position.",
+                    "$ref": "#/definitions/schema.GeoLocation"
+                }
+            }
+        },
+        "wsdl.GeoMoveResponse": {
+            "type": "object"
+        },
+        "wsdl.GetCompatibleConfigurations": {
+            "type": "object",
+            "properties": {
+                "ProfileToken": {
+                    "description": "Contains the token of an existing media profile the configurations shall be compatible with.",
+                    "type": "string"
+                }
+            }
+        },
+        "wsdl.GetCompatibleConfigurationsResponse": {
+            "type": "object",
+            "properties": {
+                "PTZConfiguration": {
+                    "description": "A list of all existing PTZConfigurations on the NVT that is suitable to be added to the addressed media profile.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.PTZConfiguration"
+                    }
+                }
+            }
+        },
+        "wsdl.GetConfiguration": {
+            "type": "object",
+            "properties": {
+                "PTZConfigurationToken": {
+                    "description": "Token of the requested PTZConfiguration.",
+                    "type": "string"
+                }
+            }
+        },
+        "wsdl.GetConfigurationOptions": {
+            "type": "object",
+            "properties": {
+                "ConfigurationToken": {
+                    "description": "Token of an existing configuration that the options are intended for.",
+                    "type": "string"
+                }
+            }
+        },
+        "wsdl.GetConfigurationOptionsResponse": {
+            "type": "object",
+            "properties": {
+                "PTZConfigurationOptions": {
+                    "description": "The requested PTZ configuration options.",
+                    "$ref": "#/definitions/schema.PTZConfigurationOptions"
+                }
+            }
+        },
+        "wsdl.GetConfigurationResponse": {
+            "type": "object",
+            "properties": {
+                "PTZConfiguration": {
+                    "description": "A requested PTZConfiguration.",
+                    "$ref": "#/definitions/schema.PTZConfiguration"
+                }
+            }
+        },
+        "wsdl.GetConfigurations": {
+            "type": "object"
+        },
+        "wsdl.GetConfigurationsResponse": {
+            "type": "object",
+            "properties": {
+                "PTZConfiguration": {
+                    "description": "A list of all existing PTZConfigurations on the device.",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.PTZConfiguration"
+                    }
+                }
+            }
+        },
+        "wsdl.GetNode": {
+            "type": "object",
+            "properties": {
+                "NodeToken": {
+                    "description": "Token of the requested PTZNode.",
+                    "type": "string"
+                }
+            }
+        },
+        "wsdl.GetNodeResponse": {
+            "type": "object",
+            "properties": {
+                "PTZNode": {
+                    "description": "A requested PTZNode.",
+                    "$ref": "#/definitions/schema.PTZNode"
                 }
             }
         },
@@ -422,6 +2712,68 @@ const docTemplate = `{
                     "type": "array",
                     "items": {
                         "$ref": "#/definitions/schema.PTZNode"
+                    }
+                }
+            }
+        },
+        "wsdl.GetPresetTour": {
+            "type": "object",
+            "properties": {
+                "PresetTourToken": {
+                    "description": "Option to specify the preset position with Preset Token defined in advance.",
+                    "type": "string"
+                },
+                "ProfileToken": {
+                    "description": "Option to specify the preset position with Preset Token defined in advance.",
+                    "type": "string"
+                }
+            }
+        },
+        "wsdl.GetPresetTourOptions": {
+            "type": "object",
+            "properties": {
+                "PresetTourToken": {
+                    "description": "Option to specify the preset position with Preset Token defined in advance.",
+                    "type": "string"
+                },
+                "ProfileToken": {
+                    "description": "Option to specify the preset position with Preset Token defined in advance.",
+                    "type": "string"
+                }
+            }
+        },
+        "wsdl.GetPresetTourOptionsResponse": {
+            "type": "object",
+            "properties": {
+                "Options": {
+                    "$ref": "#/definitions/schema.PTZPresetTourOptions"
+                }
+            }
+        },
+        "wsdl.GetPresetTourResponse": {
+            "type": "object",
+            "properties": {
+                "PresetTour": {
+                    "$ref": "#/definitions/schema.PresetTour"
+                }
+            }
+        },
+        "wsdl.GetPresetTours": {
+            "type": "object",
+            "properties": {
+                "ProfileToken": {
+                    "description": "A reference to the MediaProfile that indicate what should be stopped.",
+                    "type": "string"
+                }
+            }
+        },
+        "wsdl.GetPresetToursResponse": {
+            "type": "object",
+            "properties": {
+                "PresetTour": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/schema.PresetTour"
                     }
                 }
             }
@@ -446,6 +2798,291 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "wsdl.GetServiceCapabilities": {
+            "type": "object"
+        },
+        "wsdl.GetServiceCapabilitiesResponse": {
+            "type": "object",
+            "properties": {
+                "Capabilities": {
+                    "description": "The capabilities for the PTZ service is returned in the Capabilities element.",
+                    "$ref": "#/definitions/wsdl.Capabilities"
+                }
+            }
+        },
+        "wsdl.GetStatus": {
+            "type": "object",
+            "properties": {
+                "ProfileToken": {
+                    "description": "A reference to the MediaProfile where the PTZStatus should be requested.",
+                    "type": "string"
+                }
+            }
+        },
+        "wsdl.GetStatusResponse": {
+            "type": "object",
+            "properties": {
+                "PTZStatus": {
+                    "description": "The PTZStatus for the requested MediaProfile.",
+                    "$ref": "#/definitions/schema.PTZStatus"
+                }
+            }
+        },
+        "wsdl.GotoHomePosition": {
+            "type": "object",
+            "properties": {
+                "ProfileToken": {
+                    "description": "A reference to the MediaProfile where the operation should take place.",
+                    "type": "string"
+                },
+                "Speed": {
+                    "description": "A requested speed.The speed parameter can only be specified when Speed Spaces are available for the PTZ Node.",
+                    "$ref": "#/definitions/schema.PTZSpeed"
+                }
+            }
+        },
+        "wsdl.GotoHomePositionResponse": {
+            "type": "object"
+        },
+        "wsdl.GotoPreset": {
+            "type": "object",
+            "properties": {
+                "PresetToken": {
+                    "description": "A requested preset token.",
+                    "type": "string"
+                },
+                "ProfileToken": {
+                    "description": "A reference to the MediaProfile where the operation should take place.",
+                    "type": "string"
+                },
+                "Speed": {
+                    "description": "A requested speed.The speed parameter can only be specified when Speed Spaces are available for the PTZ Node.",
+                    "$ref": "#/definitions/schema.PTZSpeed"
+                }
+            }
+        },
+        "wsdl.GotoPresetResponse": {
+            "type": "object"
+        },
+        "wsdl.ModifyPresetTour": {
+            "type": "object",
+            "properties": {
+                "PresetTour": {
+                    "$ref": "#/definitions/schema.PresetTour"
+                },
+                "ProfileToken": {
+                    "description": "Option to specify the preset position with Preset Token defined in advance.",
+                    "type": "string"
+                }
+            }
+        },
+        "wsdl.ModifyPresetTourResponse": {
+            "type": "object"
+        },
+        "wsdl.MoveAndStartTracking": {
+            "type": "object",
+            "properties": {
+                "GeoLocation": {
+                    "description": "The geolocation of the target position.",
+                    "$ref": "#/definitions/schema.GeoLocation"
+                },
+                "ObjectID": {
+                    "description": "Object ID of the object to track.",
+                    "type": "integer"
+                },
+                "PresetToken": {
+                    "description": "A preset token.",
+                    "type": "string"
+                },
+                "ProfileToken": {
+                    "description": "A reference to the MediaProfile where the operation should take place.",
+                    "type": "string"
+                },
+                "Speed": {
+                    "description": "Speed vector specifying the velocity of pan, tilt and zoom.",
+                    "$ref": "#/definitions/schema.PTZSpeed"
+                },
+                "TargetPosition": {
+                    "description": "A Position vector specifying the absolute target position.",
+                    "$ref": "#/definitions/schema.PTZVector"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "wsdl.MoveAndStartTrackingResponse": {
+            "type": "object"
+        },
+        "wsdl.OperatePresetTour": {
+            "type": "object",
+            "properties": {
+                "Operation": {
+                    "type": "string"
+                },
+                "PresetTourToken": {
+                    "description": "Option to specify the preset position with Preset Token defined in advance.",
+                    "type": "string"
+                },
+                "ProfileToken": {
+                    "description": "Option to specify the preset position with Preset Token defined in advance.",
+                    "type": "string"
+                }
+            }
+        },
+        "wsdl.OperatePresetTourResponse": {
+            "type": "object"
+        },
+        "wsdl.RelativeMove": {
+            "type": "object",
+            "properties": {
+                "ProfileToken": {
+                    "description": "A reference to the MediaProfile.",
+                    "type": "string"
+                },
+                "Speed": {
+                    "description": "An optional Speed parameter.",
+                    "$ref": "#/definitions/schema.PTZSpeed"
+                },
+                "Translation": {
+                    "description": "A positional Translation relative to the current position",
+                    "$ref": "#/definitions/schema.PTZVector"
+                }
+            }
+        },
+        "wsdl.RelativeMoveResponse": {
+            "type": "object"
+        },
+        "wsdl.RemovePreset": {
+            "type": "object",
+            "properties": {
+                "PresetToken": {
+                    "description": "A requested preset token.",
+                    "type": "string"
+                },
+                "ProfileToken": {
+                    "description": "A reference to the MediaProfile where the operation should take place.",
+                    "type": "string"
+                }
+            }
+        },
+        "wsdl.RemovePresetResponse": {
+            "type": "object"
+        },
+        "wsdl.RemovePresetTour": {
+            "type": "object",
+            "properties": {
+                "PresetTourToken": {
+                    "description": "Option to specify the preset position with Preset Token defined in advance.",
+                    "type": "string"
+                },
+                "ProfileToken": {
+                    "description": "Option to specify the preset position with Preset Token defined in advance.",
+                    "type": "string"
+                }
+            }
+        },
+        "wsdl.RemovePresetTourResponse": {
+            "type": "object"
+        },
+        "wsdl.SendAuxiliaryCommand": {
+            "type": "object",
+            "properties": {
+                "AuxiliaryData": {
+                    "description": "The Auxiliary request data.",
+                    "type": "string"
+                },
+                "ProfileToken": {
+                    "description": "A reference to the MediaProfile where the operation should take place.",
+                    "type": "string"
+                }
+            }
+        },
+        "wsdl.SendAuxiliaryCommandResponse": {
+            "type": "object",
+            "properties": {
+                "AuxiliaryResponse": {
+                    "description": "The response contains the auxiliary response.",
+                    "type": "string"
+                }
+            }
+        },
+        "wsdl.SetConfiguration": {
+            "type": "object",
+            "properties": {
+                "ForcePersistence": {
+                    "description": "Flag that makes configuration persistent. Example: User wants the configuration to exist after reboot.",
+                    "type": "boolean"
+                },
+                "PTZConfiguration": {
+                    "$ref": "#/definitions/schema.PTZConfiguration"
+                }
+            }
+        },
+        "wsdl.SetConfigurationResponse": {
+            "type": "object"
+        },
+        "wsdl.SetHomePosition": {
+            "type": "object",
+            "properties": {
+                "ProfileToken": {
+                    "description": "A reference to the MediaProfile where the home position should be set.",
+                    "type": "string"
+                }
+            }
+        },
+        "wsdl.SetHomePositionResponse": {
+            "type": "object"
+        },
+        "wsdl.SetPreset": {
+            "type": "object",
+            "properties": {
+                "PresetName": {
+                    "description": "A requested preset name.",
+                    "type": "string"
+                },
+                "PresetToken": {
+                    "description": "A requested preset token.",
+                    "type": "string"
+                },
+                "ProfileToken": {
+                    "description": "A reference to the MediaProfile where the operation should take place.",
+                    "type": "string"
+                }
+            }
+        },
+        "wsdl.SetPresetResponse": {
+            "type": "object",
+            "properties": {
+                "PresetToken": {
+                    "description": "A token to the Preset which has been set.",
+                    "type": "string"
+                }
+            }
+        },
+        "wsdl.Stop": {
+            "type": "object",
+            "properties": {
+                "PanTilt": {
+                    "description": "Set true when we want to stop ongoing pan and tilt movements.If PanTilt arguments are not present, this command stops these movements.",
+                    "type": "boolean"
+                },
+                "ProfileToken": {
+                    "description": "A reference to the MediaProfile that indicate what should be stopped.",
+                    "type": "string"
+                },
+                "Zoom": {
+                    "description": "Set true when we want to stop ongoing zoom movement.If Zoom arguments are not present, this command stops ongoing zoom movement.",
+                    "type": "boolean"
+                }
+            }
+        },
+        "wsdl.StopResponse": {
+            "type": "object"
         }
     }
 }`

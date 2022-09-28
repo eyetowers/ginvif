@@ -1,5 +1,40 @@
 basePath: /api/v1
 definitions:
+  schema.DurationRange:
+    properties:
+      Max:
+        type: string
+      Min:
+        type: string
+    type: object
+  schema.EFlip:
+    properties:
+      Mode:
+        description: Parameter to enable/disable E-Flip feature.
+        type: string
+      items:
+        items:
+          type: string
+        type: array
+    type: object
+  schema.EFlipOptions:
+    properties:
+      Extension:
+        $ref: '#/definitions/schema.EFlipOptionsExtension'
+      Mode:
+        description: Options of EFlip mode parameter.
+        items:
+          description: Parameter to enable/disable E-Flip feature.
+          type: string
+        type: array
+    type: object
+  schema.EFlipOptionsExtension:
+    properties:
+      items:
+        items:
+          type: string
+        type: array
+    type: object
   schema.FloatRange:
     properties:
       Max:
@@ -7,12 +42,197 @@ definitions:
       Min:
         type: number
     type: object
+  schema.GeoLocation:
+    properties:
+      elevation:
+        type: number
+      items:
+        items:
+          type: string
+        type: array
+      lat:
+        type: number
+      lon:
+        type: number
+    type: object
+  schema.IntRange:
+    properties:
+      Max:
+        type: integer
+      Min:
+        type: integer
+    type: object
+  schema.PTControlDirection:
+    properties:
+      EFlip:
+        $ref: '#/definitions/schema.EFlip'
+        description: Optional element to configure related parameters for E-Flip.
+      Extension:
+        $ref: '#/definitions/schema.PTControlDirectionExtension'
+      Reverse:
+        $ref: '#/definitions/schema.Reverse'
+        description: Optional element to configure related parameters for reversing
+          of PT Control Direction.
+    type: object
+  schema.PTControlDirectionExtension:
+    properties:
+      items:
+        items:
+          type: string
+        type: array
+    type: object
+  schema.PTControlDirectionOptions:
+    properties:
+      EFlip:
+        $ref: '#/definitions/schema.EFlipOptions'
+        description: Supported options for EFlip feature.
+      Extension:
+        $ref: '#/definitions/schema.PTControlDirectionOptionsExtension'
+      Reverse:
+        $ref: '#/definitions/schema.ReverseOptions'
+        description: Supported options for Reverse feature.
+    type: object
+  schema.PTControlDirectionOptionsExtension:
+    properties:
+      items:
+        items:
+          type: string
+        type: array
+    type: object
+  schema.PTZConfiguration:
+    properties:
+      DefaultAbsolutePantTiltPositionSpace:
+        description: If the PTZ Node supports absolute Pan/Tilt movements, it shall
+          specify one Absolute Pan/Tilt Position Space as default.
+        type: string
+      DefaultAbsoluteZoomPositionSpace:
+        description: If the PTZ Node supports absolute zoom movements, it shall specify
+          one Absolute Zoom Position Space as default.
+        type: string
+      DefaultContinuousPanTiltVelocitySpace:
+        description: If the PTZ Node supports continuous Pan/Tilt movements, it shall
+          specify one Continuous Pan/Tilt Velocity Space as default.
+        type: string
+      DefaultContinuousZoomVelocitySpace:
+        description: If the PTZ Node supports continuous zoom movements, it shall
+          specify one Continuous Zoom Velocity Space as default.
+        type: string
+      DefaultPTZSpeed:
+        $ref: '#/definitions/schema.PTZSpeed'
+        description: If the PTZ Node supports absolute or relative PTZ movements,
+          it shall specify corresponding default Pan/Tilt and Zoom speeds.
+      DefaultPTZTimeout:
+        description: If the PTZ Node supports continuous movements, it shall specify
+          a default timeout, after which the movement stops.
+        type: string
+      DefaultRelativePanTiltTranslationSpace:
+        description: If the PTZ Node supports relative Pan/Tilt movements, it shall
+          specify one RelativePan/Tilt Translation Space as default.
+        type: string
+      DefaultRelativeZoomTranslationSpace:
+        description: If the PTZ Node supports relative zoom movements, it shall specify
+          one Relative Zoom Translation Space as default.
+        type: string
+      Extension:
+        $ref: '#/definitions/schema.PTZConfigurationExtension'
+      MoveRamp:
+        type: integer
+      Name:
+        description: User readable name. Length up to 64 characters.
+        type: string
+      NodeToken:
+        description: A mandatory reference to the PTZ Node that the PTZ Configuration
+          belongs to.
+        type: string
+      PanTiltLimits:
+        $ref: '#/definitions/schema.PanTiltLimits'
+        description: The Pan/Tilt limits element should be present for a PTZ Node
+          that supports an absolute Pan/Tilt. If the element is present it signals
+          the support for configurable Pan/Tilt limits. If limits are enabled, the
+          Pan/Tilt movements shall always stay within the specified range. The Pan/Tilt
+          limits are disabled by setting the limits to –INF or +INF.
+      PresetRamp:
+        type: integer
+      PresetTourRamp:
+        type: integer
+      UseCount:
+        description: Number of internal references currently using this configuration.
+        type: integer
+      ZoomLimits:
+        $ref: '#/definitions/schema.ZoomLimits'
+        description: The Zoom limits element should be present for a PTZ Node that
+          supports absolute zoom. If the element is present it signals the supports
+          for configurable Zoom limits. If limits are enabled the zoom movements shall
+          always stay within the specified range. The Zoom limits are disabled by
+          settings the limits to -INF and +INF.
+      token:
+        description: Token of the requested PTZConfiguration.
+        type: string
+    type: object
+  schema.PTZConfigurationExtension:
+    properties:
+      Extension:
+        $ref: '#/definitions/schema.PTZConfigurationExtension2'
+      PTControlDirection:
+        $ref: '#/definitions/schema.PTControlDirection'
+        description: Optional element to configure PT Control Direction related features.
+      items:
+        items:
+          type: string
+        type: array
+    type: object
+  schema.PTZConfigurationExtension2:
+    properties:
+      items:
+        items:
+          type: string
+        type: array
+    type: object
+  schema.PTZConfigurationOptions:
+    properties:
+      Extension:
+        $ref: '#/definitions/schema.PTZConfigurationOptions2'
+      PTControlDirection:
+        $ref: '#/definitions/schema.PTControlDirectionOptions'
+        description: Supported options for PT Direction Control.
+      PTZRamps:
+        items:
+          type: integer
+        type: array
+      PTZTimeout:
+        $ref: '#/definitions/schema.DurationRange'
+        description: A timeout Range within which Timeouts are accepted by the PTZ
+          Node.
+      Spaces:
+        $ref: '#/definitions/schema.PTZSpaces'
+        description: A list of supported coordinate systems including their range
+          limitations.
+      items:
+        items:
+          type: string
+        type: array
+    type: object
+  schema.PTZConfigurationOptions2:
+    properties:
+      items:
+        items:
+          type: string
+        type: array
+    type: object
+  schema.PTZMoveStatus:
+    properties:
+      PanTilt:
+        type: string
+      Zoom:
+        type: string
+    type: object
   schema.PTZNode:
     properties:
       AuxiliaryCommands:
         description: A list of supported Auxiliary commands. If the list is not empty,
           the Auxiliary Operations MUST be available for this PTZ Node.
         items:
+          description: The response contains the auxiliary response.
           type: string
         type: array
       Extension:
@@ -72,6 +292,184 @@ definitions:
           place.
         type: string
     type: object
+  schema.PTZPresetTourExtension:
+    properties:
+      items:
+        items:
+          type: string
+        type: array
+    type: object
+  schema.PTZPresetTourOptions:
+    properties:
+      AutoStart:
+        description: Indicates whether or not the AutoStart is supported.
+        type: boolean
+      StartingCondition:
+        $ref: '#/definitions/schema.PTZPresetTourStartingConditionOptions'
+        description: Supported options for Preset Tour Starting Condition.
+      TourSpot:
+        $ref: '#/definitions/schema.PTZPresetTourSpotOptions'
+        description: Supported options for Preset Tour Spot.
+      items:
+        items:
+          type: string
+        type: array
+    type: object
+  schema.PTZPresetTourPresetDetail:
+    properties:
+      Home:
+        description: Option to specify the preset position with the home position
+          of this PTZ Node. "False" to this parameter shall be treated as an invalid
+          argument.
+        type: boolean
+      PTZPosition:
+        $ref: '#/definitions/schema.PTZVector'
+        description: Option to specify the preset position with vector of PTZ node
+          directly.
+      PresetToken:
+        description: Option to specify the preset position with Preset Token defined
+          in advance.
+        type: string
+      TypeExtension:
+        $ref: '#/definitions/schema.PTZPresetTourTypeExtension'
+      items:
+        items:
+          type: string
+        type: array
+    type: object
+  schema.PTZPresetTourPresetDetailOptions:
+    properties:
+      Extension:
+        $ref: '#/definitions/schema.PTZPresetTourPresetDetailOptionsExtension'
+      Home:
+        description: An option to indicate Home postion for tour spots.
+        type: boolean
+      PanTiltPositionSpace:
+        $ref: '#/definitions/schema.Space2DDescription'
+        description: Supported range of Pan and Tilt for tour spots.
+      PresetToken:
+        description: A list of available Preset Tokens for tour spots.
+        items:
+          description: A preset token.
+          type: string
+        type: array
+      ZoomPositionSpace:
+        $ref: '#/definitions/schema.Space1DDescription'
+        description: Supported range of Zoom for a tour spot.
+    type: object
+  schema.PTZPresetTourPresetDetailOptionsExtension:
+    properties:
+      items:
+        items:
+          type: string
+        type: array
+    type: object
+  schema.PTZPresetTourSpot:
+    properties:
+      Extension:
+        $ref: '#/definitions/schema.PTZPresetTourSpotExtension'
+      PresetDetail:
+        $ref: '#/definitions/schema.PTZPresetTourPresetDetail'
+        description: Detail definition of preset position of the tour spot.
+      Speed:
+        $ref: '#/definitions/schema.PTZSpeed'
+        description: Optional parameter to specify Pan/Tilt and Zoom speed on moving
+          toward this tour spot.
+      StayTime:
+        description: Optional parameter to specify time duration of staying on this
+          tour sport.
+        type: string
+    type: object
+  schema.PTZPresetTourSpotExtension:
+    properties:
+      items:
+        items:
+          type: string
+        type: array
+    type: object
+  schema.PTZPresetTourSpotOptions:
+    properties:
+      PresetDetail:
+        $ref: '#/definitions/schema.PTZPresetTourPresetDetailOptions'
+        description: Supported options for detail definition of preset position of
+          the tour spot.
+      StayTime:
+        $ref: '#/definitions/schema.DurationRange'
+        description: Supported range of stay time for a tour spot.
+      items:
+        items:
+          type: string
+        type: array
+    type: object
+  schema.PTZPresetTourStartingCondition:
+    properties:
+      Direction:
+        description: Optional parameter to choose which direction the preset tour
+          goes. Forward shall be chosen in case it is omitted.
+        type: string
+      Extension:
+        $ref: '#/definitions/schema.PTZPresetTourStartingConditionExtension'
+      RandomPresetOrder:
+        type: boolean
+      RecurringDuration:
+        description: Optional parameter to specify how long time duration the preset
+          tour is recurred.
+        type: string
+      RecurringTime:
+        description: Optional parameter to specify how many times the preset tour
+          is recurred.
+        type: integer
+    type: object
+  schema.PTZPresetTourStartingConditionExtension:
+    properties:
+      items:
+        items:
+          type: string
+        type: array
+    type: object
+  schema.PTZPresetTourStartingConditionOptions:
+    properties:
+      Direction:
+        description: Supported options for Direction of Preset Tour.
+        items:
+          description: Optional parameter to choose which direction the preset tour
+            goes. Forward shall be chosen in case it is omitted.
+          type: string
+        type: array
+      Extension:
+        $ref: '#/definitions/schema.PTZPresetTourStartingConditionOptionsExtension'
+      RecurringDuration:
+        $ref: '#/definitions/schema.DurationRange'
+        description: Supported range of Recurring Duration.
+      RecurringTime:
+        $ref: '#/definitions/schema.IntRange'
+        description: Supported range of Recurring Time.
+    type: object
+  schema.PTZPresetTourStartingConditionOptionsExtension:
+    properties:
+      items:
+        items:
+          type: string
+        type: array
+    type: object
+  schema.PTZPresetTourStatus:
+    properties:
+      CurrentTourSpot:
+        $ref: '#/definitions/schema.PTZPresetTourSpot'
+        description: Indicates a tour spot currently staying.
+      Extension:
+        $ref: '#/definitions/schema.PTZPresetTourStatusExtension'
+      State:
+        description: Indicates state of this preset tour by Idle/Touring/Paused.
+        type: string
+    type: object
+  schema.PTZPresetTourStatusExtension:
+    properties:
+      items:
+        items:
+          type: string
+        type: array
+    type: object
   schema.PTZPresetTourSupported:
     properties:
       Extension:
@@ -89,6 +487,13 @@ definitions:
         type: array
     type: object
   schema.PTZPresetTourSupportedExtension:
+    properties:
+      items:
+        items:
+          type: string
+        type: array
+    type: object
+  schema.PTZPresetTourTypeExtension:
     properties:
       items:
         items:
@@ -169,6 +574,40 @@ definitions:
           type: string
         type: array
     type: object
+  schema.PTZSpeed:
+    properties:
+      PanTilt:
+        $ref: '#/definitions/schema.Vector2D'
+        description: Pan and tilt speed. The x component corresponds to pan and the
+          y component to tilt. If omitted in a request, the current (if any) PanTilt
+          movement should not be affected.
+      Zoom:
+        $ref: '#/definitions/schema.Vector1D'
+        description: A zoom speed. If omitted in a request, the current (if any) Zoom
+          movement should not be affected.
+    type: object
+  schema.PTZStatus:
+    properties:
+      Error:
+        description: States a current PTZ error.
+        type: string
+      MoveStatus:
+        $ref: '#/definitions/schema.PTZMoveStatus'
+        description: Indicates if the Pan/Tilt/Zoom device unit is currently moving,
+          idle or in an unknown state.
+      Position:
+        $ref: '#/definitions/schema.PTZVector'
+        description: Specifies the absolute position of the PTZ unit together with
+          the Space references. The default absolute spaces of the corresponding PTZ
+          configuration MUST be referenced within the Position element.
+      UtcTime:
+        $ref: '#/definitions/soap.XSDDateTime'
+        description: Specifies the UTC time when this status was generated.
+      items:
+        items:
+          type: string
+        type: array
+    type: object
   schema.PTZVector:
     properties:
       PanTilt:
@@ -178,6 +617,67 @@ definitions:
       Zoom:
         $ref: '#/definitions/schema.Vector1D'
         description: A zoom position.
+    type: object
+  schema.PanTiltLimits:
+    properties:
+      Range:
+        $ref: '#/definitions/schema.Space2DDescription'
+        description: A range of pan tilt limits.
+    type: object
+  schema.PresetTour:
+    properties:
+      AutoStart:
+        description: Auto Start flag of the preset tour. True allows the preset tour
+          to be activated always.
+        type: boolean
+      Extension:
+        $ref: '#/definitions/schema.PTZPresetTourExtension'
+      Name:
+        description: Readable name of the preset tour.
+        type: string
+      StartingCondition:
+        $ref: '#/definitions/schema.PTZPresetTourStartingCondition'
+        description: Parameters to specify the detail behavior of the preset tour.
+      Status:
+        $ref: '#/definitions/schema.PTZPresetTourStatus'
+        description: Read only parameters to indicate the status of the preset tour.
+      TourSpot:
+        description: A list of detail of touring spots including preset positions.
+        items:
+          $ref: '#/definitions/schema.PTZPresetTourSpot'
+        type: array
+      token:
+        description: Option to specify the preset position with Preset Token defined
+          in advance.
+        type: string
+    type: object
+  schema.Reverse:
+    properties:
+      Mode:
+        description: Parameter to enable/disable Reverse feature.
+        type: string
+      items:
+        items:
+          type: string
+        type: array
+    type: object
+  schema.ReverseOptions:
+    properties:
+      Extension:
+        $ref: '#/definitions/schema.ReverseOptionsExtension'
+      Mode:
+        description: Options of Reverse mode parameter.
+        items:
+          description: Parameter to enable/disable Reverse feature.
+          type: string
+        type: array
+    type: object
+  schema.ReverseOptionsExtension:
+    properties:
+      items:
+        items:
+          type: string
+        type: array
     type: object
   schema.Space1DDescription:
     properties:
@@ -216,12 +716,166 @@ definitions:
       "y":
         type: number
     type: object
+  schema.ZoomLimits:
+    properties:
+      Range:
+        $ref: '#/definitions/schema.Space1DDescription'
+        description: A range of zoom limit
+    type: object
+  soap.XSDDateTime:
+    type: object
   util.Error:
     properties:
       code:
         type: integer
       message:
         type: string
+    type: object
+  wsdl.AbsoluteMove:
+    properties:
+      Position:
+        $ref: '#/definitions/schema.PTZVector'
+        description: A Position vector specifying the absolute target position.
+      ProfileToken:
+        description: A reference to the MediaProfile.
+        type: string
+      Speed:
+        $ref: '#/definitions/schema.PTZSpeed'
+        description: An optional Speed.
+    type: object
+  wsdl.AbsoluteMoveResponse:
+    type: object
+  wsdl.Capabilities:
+    properties:
+      EFlip:
+        type: boolean
+      GetCompatibleConfigurations:
+        type: boolean
+      MoveAndTrack:
+        items:
+          type: string
+        type: array
+      MoveStatus:
+        type: boolean
+      Reverse:
+        type: boolean
+      StatusPosition:
+        type: boolean
+      items:
+        items:
+          type: string
+        type: array
+    type: object
+  wsdl.ContinuousMove:
+    properties:
+      ProfileToken:
+        description: A reference to the MediaProfile.
+        type: string
+      Timeout:
+        description: An optional Timeout parameter.
+        type: string
+      Velocity:
+        $ref: '#/definitions/schema.PTZSpeed'
+        description: A Velocity vector specifying the velocity of pan, tilt and zoom.
+    type: object
+  wsdl.ContinuousMoveResponse:
+    type: object
+  wsdl.CreatePresetTour:
+    properties:
+      ProfileToken:
+        description: Option to specify the preset position with Preset Token defined
+          in advance.
+        type: string
+    type: object
+  wsdl.CreatePresetTourResponse:
+    properties:
+      PresetTourToken:
+        description: Option to specify the preset position with Preset Token defined
+          in advance.
+        type: string
+    type: object
+  wsdl.GeoMove:
+    properties:
+      AreaHeight:
+        description: An optional indication of the height of the target/area.
+        type: number
+      AreaWidth:
+        description: An optional indication of the width of the target/area.
+        type: number
+      ProfileToken:
+        description: A reference to the MediaProfile.
+        type: string
+      Speed:
+        $ref: '#/definitions/schema.PTZSpeed'
+        description: An optional Speed.
+      Target:
+        $ref: '#/definitions/schema.GeoLocation'
+        description: The geolocation of the target position.
+    type: object
+  wsdl.GeoMoveResponse:
+    type: object
+  wsdl.GetCompatibleConfigurations:
+    properties:
+      ProfileToken:
+        description: Contains the token of an existing media profile the configurations
+          shall be compatible with.
+        type: string
+    type: object
+  wsdl.GetCompatibleConfigurationsResponse:
+    properties:
+      PTZConfiguration:
+        description: A list of all existing PTZConfigurations on the NVT that is suitable
+          to be added to the addressed media profile.
+        items:
+          $ref: '#/definitions/schema.PTZConfiguration'
+        type: array
+    type: object
+  wsdl.GetConfiguration:
+    properties:
+      PTZConfigurationToken:
+        description: Token of the requested PTZConfiguration.
+        type: string
+    type: object
+  wsdl.GetConfigurationOptions:
+    properties:
+      ConfigurationToken:
+        description: Token of an existing configuration that the options are intended
+          for.
+        type: string
+    type: object
+  wsdl.GetConfigurationOptionsResponse:
+    properties:
+      PTZConfigurationOptions:
+        $ref: '#/definitions/schema.PTZConfigurationOptions'
+        description: The requested PTZ configuration options.
+    type: object
+  wsdl.GetConfigurationResponse:
+    properties:
+      PTZConfiguration:
+        $ref: '#/definitions/schema.PTZConfiguration'
+        description: A requested PTZConfiguration.
+    type: object
+  wsdl.GetConfigurations:
+    type: object
+  wsdl.GetConfigurationsResponse:
+    properties:
+      PTZConfiguration:
+        description: A list of all existing PTZConfigurations on the device.
+        items:
+          $ref: '#/definitions/schema.PTZConfiguration'
+        type: array
+    type: object
+  wsdl.GetNode:
+    properties:
+      NodeToken:
+        description: Token of the requested PTZNode.
+        type: string
+    type: object
+  wsdl.GetNodeResponse:
+    properties:
+      PTZNode:
+        $ref: '#/definitions/schema.PTZNode'
+        description: A requested PTZNode.
     type: object
   wsdl.GetNodes:
     type: object
@@ -231,6 +885,52 @@ definitions:
         description: A list of the existing PTZ Nodes on the device.
         items:
           $ref: '#/definitions/schema.PTZNode'
+        type: array
+    type: object
+  wsdl.GetPresetTour:
+    properties:
+      PresetTourToken:
+        description: Option to specify the preset position with Preset Token defined
+          in advance.
+        type: string
+      ProfileToken:
+        description: Option to specify the preset position with Preset Token defined
+          in advance.
+        type: string
+    type: object
+  wsdl.GetPresetTourOptions:
+    properties:
+      PresetTourToken:
+        description: Option to specify the preset position with Preset Token defined
+          in advance.
+        type: string
+      ProfileToken:
+        description: Option to specify the preset position with Preset Token defined
+          in advance.
+        type: string
+    type: object
+  wsdl.GetPresetTourOptionsResponse:
+    properties:
+      Options:
+        $ref: '#/definitions/schema.PTZPresetTourOptions'
+    type: object
+  wsdl.GetPresetTourResponse:
+    properties:
+      PresetTour:
+        $ref: '#/definitions/schema.PresetTour'
+    type: object
+  wsdl.GetPresetTours:
+    properties:
+      ProfileToken:
+        description: A reference to the MediaProfile that indicate what should be
+          stopped.
+        type: string
+    type: object
+  wsdl.GetPresetToursResponse:
+    properties:
+      PresetTour:
+        items:
+          $ref: '#/definitions/schema.PresetTour'
         type: array
     type: object
   wsdl.GetPresets:
@@ -248,6 +948,222 @@ definitions:
           $ref: '#/definitions/schema.PTZPreset'
         type: array
     type: object
+  wsdl.GetServiceCapabilities:
+    type: object
+  wsdl.GetServiceCapabilitiesResponse:
+    properties:
+      Capabilities:
+        $ref: '#/definitions/wsdl.Capabilities'
+        description: The capabilities for the PTZ service is returned in the Capabilities
+          element.
+    type: object
+  wsdl.GetStatus:
+    properties:
+      ProfileToken:
+        description: A reference to the MediaProfile where the PTZStatus should be
+          requested.
+        type: string
+    type: object
+  wsdl.GetStatusResponse:
+    properties:
+      PTZStatus:
+        $ref: '#/definitions/schema.PTZStatus'
+        description: The PTZStatus for the requested MediaProfile.
+    type: object
+  wsdl.GotoHomePosition:
+    properties:
+      ProfileToken:
+        description: A reference to the MediaProfile where the operation should take
+          place.
+        type: string
+      Speed:
+        $ref: '#/definitions/schema.PTZSpeed'
+        description: A requested speed.The speed parameter can only be specified when
+          Speed Spaces are available for the PTZ Node.
+    type: object
+  wsdl.GotoHomePositionResponse:
+    type: object
+  wsdl.GotoPreset:
+    properties:
+      PresetToken:
+        description: A requested preset token.
+        type: string
+      ProfileToken:
+        description: A reference to the MediaProfile where the operation should take
+          place.
+        type: string
+      Speed:
+        $ref: '#/definitions/schema.PTZSpeed'
+        description: A requested speed.The speed parameter can only be specified when
+          Speed Spaces are available for the PTZ Node.
+    type: object
+  wsdl.GotoPresetResponse:
+    type: object
+  wsdl.ModifyPresetTour:
+    properties:
+      PresetTour:
+        $ref: '#/definitions/schema.PresetTour'
+      ProfileToken:
+        description: Option to specify the preset position with Preset Token defined
+          in advance.
+        type: string
+    type: object
+  wsdl.ModifyPresetTourResponse:
+    type: object
+  wsdl.MoveAndStartTracking:
+    properties:
+      GeoLocation:
+        $ref: '#/definitions/schema.GeoLocation'
+        description: The geolocation of the target position.
+      ObjectID:
+        description: Object ID of the object to track.
+        type: integer
+      PresetToken:
+        description: A preset token.
+        type: string
+      ProfileToken:
+        description: A reference to the MediaProfile where the operation should take
+          place.
+        type: string
+      Speed:
+        $ref: '#/definitions/schema.PTZSpeed'
+        description: Speed vector specifying the velocity of pan, tilt and zoom.
+      TargetPosition:
+        $ref: '#/definitions/schema.PTZVector'
+        description: A Position vector specifying the absolute target position.
+      items:
+        items:
+          type: string
+        type: array
+    type: object
+  wsdl.MoveAndStartTrackingResponse:
+    type: object
+  wsdl.OperatePresetTour:
+    properties:
+      Operation:
+        type: string
+      PresetTourToken:
+        description: Option to specify the preset position with Preset Token defined
+          in advance.
+        type: string
+      ProfileToken:
+        description: Option to specify the preset position with Preset Token defined
+          in advance.
+        type: string
+    type: object
+  wsdl.OperatePresetTourResponse:
+    type: object
+  wsdl.RelativeMove:
+    properties:
+      ProfileToken:
+        description: A reference to the MediaProfile.
+        type: string
+      Speed:
+        $ref: '#/definitions/schema.PTZSpeed'
+        description: An optional Speed parameter.
+      Translation:
+        $ref: '#/definitions/schema.PTZVector'
+        description: A positional Translation relative to the current position
+    type: object
+  wsdl.RelativeMoveResponse:
+    type: object
+  wsdl.RemovePreset:
+    properties:
+      PresetToken:
+        description: A requested preset token.
+        type: string
+      ProfileToken:
+        description: A reference to the MediaProfile where the operation should take
+          place.
+        type: string
+    type: object
+  wsdl.RemovePresetResponse:
+    type: object
+  wsdl.RemovePresetTour:
+    properties:
+      PresetTourToken:
+        description: Option to specify the preset position with Preset Token defined
+          in advance.
+        type: string
+      ProfileToken:
+        description: Option to specify the preset position with Preset Token defined
+          in advance.
+        type: string
+    type: object
+  wsdl.RemovePresetTourResponse:
+    type: object
+  wsdl.SendAuxiliaryCommand:
+    properties:
+      AuxiliaryData:
+        description: The Auxiliary request data.
+        type: string
+      ProfileToken:
+        description: A reference to the MediaProfile where the operation should take
+          place.
+        type: string
+    type: object
+  wsdl.SendAuxiliaryCommandResponse:
+    properties:
+      AuxiliaryResponse:
+        description: The response contains the auxiliary response.
+        type: string
+    type: object
+  wsdl.SetConfiguration:
+    properties:
+      ForcePersistence:
+        description: 'Flag that makes configuration persistent. Example: User wants
+          the configuration to exist after reboot.'
+        type: boolean
+      PTZConfiguration:
+        $ref: '#/definitions/schema.PTZConfiguration'
+    type: object
+  wsdl.SetConfigurationResponse:
+    type: object
+  wsdl.SetHomePosition:
+    properties:
+      ProfileToken:
+        description: A reference to the MediaProfile where the home position should
+          be set.
+        type: string
+    type: object
+  wsdl.SetHomePositionResponse:
+    type: object
+  wsdl.SetPreset:
+    properties:
+      PresetName:
+        description: A requested preset name.
+        type: string
+      PresetToken:
+        description: A requested preset token.
+        type: string
+      ProfileToken:
+        description: A reference to the MediaProfile where the operation should take
+          place.
+        type: string
+    type: object
+  wsdl.SetPresetResponse:
+    properties:
+      PresetToken:
+        description: A token to the Preset which has been set.
+        type: string
+    type: object
+  wsdl.Stop:
+    properties:
+      PanTilt:
+        description: Set true when we want to stop ongoing pan and tilt movements.If
+          PanTilt arguments are not present, this command stops these movements.
+        type: boolean
+      ProfileToken:
+        description: A reference to the MediaProfile that indicate what should be
+          stopped.
+        type: string
+      Zoom:
+        description: Set true when we want to stop ongoing zoom movement.If Zoom arguments
+          are not present, this command stops ongoing zoom movement.
+        type: boolean
+    type: object
+  wsdl.StopResponse:
+    type: object
 info:
   contact:
     email: ondrej.sery@eyetowers.cz
@@ -261,6 +1177,361 @@ info:
   title: Onvif JSON API Adapter
   version: "1.0"
 paths:
+  /ptz/absolute-move:
+    post:
+      consumes:
+      - application/json
+      description: The speed argument is optional. If an x/y speed value is given
+        it is up to the device to either use the x value as absolute resoluting speed
+        vector or to map x and y to the component speed. If the speed argument is
+        omitted, the default speed set by the PTZConfiguration will be used.
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.AbsoluteMove'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.AbsoluteMoveResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: Operation to move pan,tilt or zoom to a absolute destination.
+      tags:
+      - ptz
+  /ptz/continuous-move:
+    post:
+      consumes:
+      - application/json
+      description: The operation is supported if the PTZNode supports at least one
+        continuous Pan/Tilt or Zoom space. If the space argument is omitted, the default
+        space set by the PTZConfiguration will be used.
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.ContinuousMove'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.ContinuousMoveResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: Operation for continuous Pan/Tilt and Zoom movements.
+      tags:
+      - ptz
+  /ptz/create-preset-tour:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.CreatePresetTour'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.CreatePresetTourResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: Operation to create a preset tour for the selected media profile.
+      tags:
+      - ptz
+  /ptz/geo-move:
+    post:
+      consumes:
+      - application/json
+      description: The speed argument is optional. If an x/y speed value is given
+        it is up to the device to either use the x value as absolute resoluting speed
+        vector or to map x and y to the component speed. If the speed argument is
+        omitted, the default speed set by the PTZConfiguration will be used. The area
+        height and area dwidth parameters are optional, they can be used independently
+        and may be used by the device to automatically determine the best zoom level
+        to show the target.
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.GeoMove'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.GeoMoveResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: Operation to move pan,tilt or zoom to point to a destination based
+        on the geolocation of the target.
+      tags:
+      - ptz
+  /ptz/get-compatible-configurations:
+    post:
+      consumes:
+      - application/json
+      description: A device providing more than one PTZConfiguration or more than
+        one VideoSourceConfiguration or which has any other resource interdependency
+        between PTZConfiguration entities and other resources listable in a media
+        profile should implement this operation. PTZConfiguration entities returned
+        by this operation shall not fail on adding them to the referenced media profile.
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.GetCompatibleConfigurations'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.GetCompatibleConfigurationsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: Operation to get all available PTZConfigurations that can be added
+        to the referenced media profile.
+      tags:
+      - ptz
+  /ptz/get-configuration:
+    post:
+      consumes:
+      - application/json
+      description: The default Position/Translation/Velocity Spaces are introduced
+        to allow NVCs sending move requests without the need to specify a certain
+        coordinate system. The default Speeds are introduced to control the speed
+        of move requests (absolute, relative, preset), where no explicit speed has
+        been set. The allowed pan and tilt range for Pan/Tilt Limits is defined by
+        a two-dimensional space range that is mapped to a specific Absolute Pan/Tilt
+        Position Space. At least one Pan/Tilt Position Space is required by the PTZNode
+        to support Pan/Tilt limits. The limits apply to all supported absolute, relative
+        and continuous Pan/Tilt movements. The limits shall be checked within the
+        coordinate system for which the limits have been specified. That means that
+        even if movements are specified in a different coordinate system, the requested
+        movements shall be transformed to the coordinate system of the limits where
+        the limits can be checked. When a relative or continuous movements is specified,
+        which would leave the specified limits, the PTZ unit has to move along the
+        specified limits. The Zoom Limits have to be interpreted accordingly.
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.GetConfiguration'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.GetConfigurationResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: Get a specific PTZconfiguration from the device, identified by its
+        reference token or name.
+      tags:
+      - ptz
+  /ptz/get-configurations:
+    post:
+      consumes:
+      - application/json
+      description: The default Position/Translation/Velocity Spaces are introduced
+        to allow NVCs sending move requests without the need to specify a certain
+        coordinate system. The default Speeds are introduced to control the speed
+        of move requests (absolute, relative, preset), where no explicit speed has
+        been set. The allowed pan and tilt range for Pan/Tilt Limits is defined by
+        a two-dimensional space range that is mapped to a specific Absolute Pan/Tilt
+        Position Space. At least one Pan/Tilt Position Space is required by the PTZNode
+        to support Pan/Tilt limits. The limits apply to all supported absolute, relative
+        and continuous Pan/Tilt movements. The limits shall be checked within the
+        coordinate system for which the limits have been specified. That means that
+        even if movements are specified in a different coordinate system, the requested
+        movements shall be transformed to the coordinate system of the limits where
+        the limits can be checked. When a relative or continuous movements is specified,
+        which would leave the specified limits, the PTZ unit has to move along the
+        specified limits. The Zoom Limits have to be interpreted accordingly.
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.GetConfigurations'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.GetConfigurationsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: Get all the existing PTZConfigurations from the device.
+      tags:
+      - ptz
+  /ptz/get-configurations-options:
+    post:
+      consumes:
+      - application/json
+      description: Therefore, the options MAY differ depending on whether the PTZ
+        Configuration is assigned to a Profile containing a Video Source Configuration.
+        In that case, the options may additionally contain coordinate systems referring
+        to the image coordinate system described by the Video Source Configuration.
+        If the PTZ Node supports continuous movements, it shall return a Timeout Range
+        within which Timeouts are accepted by the PTZ Node.
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.GetConfigurationOptions'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.GetConfigurationOptionsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: List supported coordinate systems including their range limitations.
+      tags:
+      - ptz
+  /ptz/get-node:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.GetNode'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.GetNodeResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: Get a specific PTZ Node identified by a reference token or a name.
+      tags:
+      - ptz
   /ptz/get-nodes:
     post:
       consumes:
@@ -299,6 +1570,106 @@ paths:
       summary: Get the descriptions of the available PTZ Nodes.
       tags:
       - ptz
+  /ptz/get-preset-tour:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.GetPresetTour'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.GetPresetTourResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: Operation to request a specific PTZ preset tour in the selected media
+        profile.
+      tags:
+      - ptz
+  /ptz/get-preset-tour-options:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.GetPresetTourOptions'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.GetPresetTourOptionsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: Operation to request available options to configure PTZ preset tour.
+      tags:
+      - ptz
+  /ptz/get-preset-tours:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.GetPresetTours'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.GetPresetToursResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: Operation to request PTZ preset tours in the selected media profiles.
+      tags:
+      - ptz
   /ptz/get-presets:
     post:
       consumes:
@@ -333,6 +1704,544 @@ paths:
             $ref: '#/definitions/util.Error'
       summary: Operation to request all PTZ presets for the PTZNode in the selected
         profile.
+      tags:
+      - ptz
+  /ptz/get-service-capabilities:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.GetServiceCapabilities'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.GetServiceCapabilitiesResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: Returns the capabilities of the PTZ service. The result is returned
+        in a typed answer.
+      tags:
+      - ptz
+  /ptz/get-status:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.GetStatus'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.GetStatusResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: Operation to request PTZ status for the Node in the selected profile.
+      tags:
+      - ptz
+  /ptz/goto-home-position:
+    post:
+      consumes:
+      - application/json
+      description: The operation is supported if the HomeSupported element in the
+        PTZNode is true.
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.GotoHomePosition'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.GotoHomePositionResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: Operation to move the PTZ device to it's "home" position.
+      tags:
+      - ptz
+  /ptz/goto-preset:
+    post:
+      consumes:
+      - application/json
+      description: The operation is supported if there is support for at least on
+        PTZ preset by the PTZNode.
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.GotoPreset'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.GotoPresetResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: Operation to go to a saved preset position for the PTZNode in the selected
+        profile.
+      tags:
+      - ptz
+  /ptz/modify-preset-tour:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.ModifyPresetTour'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.ModifyPresetTourResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: Operation to modify a preset tour for the selected media profile.
+      tags:
+      - ptz
+  /ptz/move-and-start-tracking:
+    post:
+      consumes:
+      - application/json
+      description: An existing Speed argument overrides DefaultSpeed of the corresponding
+        PTZ configuration during movement to the requested position. If spaces are
+        referenced within the Speed argument, they shall be speed spaces supported
+        by the PTZ node. If the detection and the tracking are done in the same device,
+        an ObjectID reference can be passed as an argument, in order to specify which
+        object should be tracked. The operation shall fail if the requested absolute
+        position is not reachable.
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.MoveAndStartTracking'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.MoveAndStartTrackingResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: 'Operation to send an an atomic command to the device: move the camera
+        to a wanted position and then delegate the PTZ control to the tracking algorithm.'
+      tags:
+      - ptz
+  /ptz/operate-preset-tour:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.OperatePresetTour'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.OperatePresetTourResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: Operation to perform specific operation on the preset tour in selected
+        media profile.
+      tags:
+      - ptz
+  /ptz/relative-move:
+    post:
+      consumes:
+      - application/json
+      description: The operation is supported if the PTZNode supports at least one
+        relative Pan/Tilt or Zoom space. The speed argument is optional. If an x/y
+        speed value is given it is up to the device to either use the x value as absolute
+        resoluting speed vector or to map x and y to the component speed. If the speed
+        argument is omitted, the default speed set by the PTZConfiguration will be
+        used.
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.RelativeMove'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.RelativeMoveResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: Operation for Relative Pan/Tilt and Zoom Move.
+      tags:
+      - ptz
+  /ptz/remove-preset:
+    post:
+      consumes:
+      - application/json
+      description: The operation is supported if the PresetPosition capability exists
+        for teh Node in the selected profile.
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.RemovePreset'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.RemovePresetResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: Operation to remove a PTZ preset for the Node in the selected profile.
+      tags:
+      - ptz
+  /ptz/remove-preset-tour:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.RemovePresetTour'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.RemovePresetTourResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: Operation to delete a specific preset tour from the media profile.
+      tags:
+      - ptz
+  /ptz/send-auxiliary-command:
+    post:
+      consumes:
+      - application/json
+      description: The operation is supported if the AuxiliarySupported element of
+        the PTZNode is true
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.SendAuxiliaryCommand'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.SendAuxiliaryCommandResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: Operation to send auxiliary commands to the PTZ device mapped by the
+        PTZNode in the selected profile.
+      tags:
+      - ptz
+  /ptz/set-configuration:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.SetConfiguration'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.SetConfigurationResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: Set/update a existing PTZConfiguration on the device.
+      tags:
+      - ptz
+  /ptz/set-home-position:
+    post:
+      consumes:
+      - application/json
+      description: The SetHomePosition command returns with a failure if the “home”
+        position is fixed and cannot be overwritten. If the SetHomePosition is successful,
+        it is possible to recall the Home Position with the GotoHomePosition command.
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.SetHomePosition'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.SetHomePositionResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: Operation to save current position as the home position.
+      tags:
+      - ptz
+  /ptz/set-preset:
+    post:
+      consumes:
+      - application/json
+      description: In order to create a new preset, the SetPresetRequest contains
+        no PresetToken. If creation is successful, the Response contains the PresetToken
+        which uniquely identifies the Preset. An existing Preset can be overwritten
+        by specifying the PresetToken of the corresponding Preset. In both cases (overwriting
+        or creation) an optional PresetName can be specified. The operation fails
+        if the PTZ device is moving during the SetPreset operation. The device MAY
+        internally save additional states such as imaging properties in the PTZ Preset
+        which then should be recalled in the GotoPreset operation. The operation is
+        supported if there is support for at least on PTZ preset by the PTZNode.
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.SetPreset'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.SetPresetResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: The SetPreset command saves the current device position parameters
+        so that the device can move to the saved preset position through the GotoPreset
+        operation.
+      tags:
+      - ptz
+  /ptz/stop:
+    post:
+      consumes:
+      - application/json
+      description: If no stop argument for pan, tilt or zoom is set, the device will
+        stop all ongoing pan, tilt and zoom movements.
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.Stop'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.StopResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: Operation to stop ongoing pan, tilt and zoom movements of absolute
+        relative and continuous type.
       tags:
       - ptz
 swagger: "2.0"
