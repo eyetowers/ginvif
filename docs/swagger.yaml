@@ -1,0 +1,338 @@
+basePath: /api/v1
+definitions:
+  schema.FloatRange:
+    properties:
+      Max:
+        type: number
+      Min:
+        type: number
+    type: object
+  schema.PTZNode:
+    properties:
+      AuxiliaryCommands:
+        description: A list of supported Auxiliary commands. If the list is not empty,
+          the Auxiliary Operations MUST be available for this PTZ Node.
+        items:
+          type: string
+        type: array
+      Extension:
+        $ref: '#/definitions/schema.PTZNodeExtension'
+      FixedHomePosition:
+        type: boolean
+      GeoMove:
+        type: boolean
+      HomeSupported:
+        description: A boolean operator specifying the availability of a home position.
+          If set to true, the Home Position Operations MUST be available for this
+          PTZ Node.
+        type: boolean
+      MaximumNumberOfPresets:
+        description: All preset operations MUST be available for this PTZ Node if
+          one preset is supported.
+        type: integer
+      Name:
+        description: A unique identifier that is used to reference PTZ Nodes.
+        type: string
+      SupportedPTZSpaces:
+        $ref: '#/definitions/schema.PTZSpaces'
+        description: A list of Coordinate Systems available for the PTZ Node. For
+          each Coordinate System, the PTZ Node MUST specify its allowed range.
+      token:
+        type: string
+    type: object
+  schema.PTZNodeExtension:
+    properties:
+      Extension:
+        $ref: '#/definitions/schema.PTZNodeExtension2'
+      SupportedPresetTour:
+        $ref: '#/definitions/schema.PTZPresetTourSupported'
+        description: Detail of supported Preset Tour feature.
+      items:
+        items:
+          type: string
+        type: array
+    type: object
+  schema.PTZNodeExtension2:
+    properties:
+      items:
+        items:
+          type: string
+        type: array
+    type: object
+  schema.PTZPreset:
+    properties:
+      Name:
+        description: A list of preset position name.
+        type: string
+      PTZPosition:
+        $ref: '#/definitions/schema.PTZVector'
+        description: A list of preset position.
+      token:
+        description: A reference to the MediaProfile where the operation should take
+          place.
+        type: string
+    type: object
+  schema.PTZPresetTourSupported:
+    properties:
+      Extension:
+        $ref: '#/definitions/schema.PTZPresetTourSupportedExtension'
+      MaximumNumberOfPresetTours:
+        description: Indicates number of preset tours that can be created. Required
+          preset tour operations shall be available for this PTZ Node if one or more
+          preset tour is supported.
+        type: integer
+      PTZPresetTourOperation:
+        description: Indicates which preset tour operations are available for this
+          PTZ Node.
+        items:
+          type: string
+        type: array
+    type: object
+  schema.PTZPresetTourSupportedExtension:
+    properties:
+      items:
+        items:
+          type: string
+        type: array
+    type: object
+  schema.PTZSpaces:
+    properties:
+      AbsolutePanTiltPositionSpace:
+        description: |-
+          The Generic Pan/Tilt Position space is provided by every PTZ node that supports absolute Pan/Tilt, since it does not relate to a specific physical range.
+          Instead, the range should be defined as the full range of the PTZ unit normalized to the range -1 to 1 resulting in the following space description.
+        items:
+          $ref: '#/definitions/schema.Space2DDescription'
+        type: array
+      AbsoluteZoomPositionSpace:
+        description: |-
+          The Generic Zoom Position Space is provided by every PTZ node that supports absolute Zoom, since it does not relate to a specific physical range.
+          Instead, the range should be defined as the full range of the Zoom normalized to the range 0 (wide) to 1 (tele).
+          There is no assumption about how the generic zoom range is mapped to magnification, FOV or other physical zoom dimension.
+        items:
+          $ref: '#/definitions/schema.Space1DDescription'
+        type: array
+      ContinuousPanTiltVelocitySpace:
+        description: |-
+          The generic Pan/Tilt velocity space shall be provided by every PTZ node, since it does not relate to a specific physical range.
+          Instead, the range should be defined as a range of the PTZ unit’s speed normalized to the range -1 to 1, where a positive velocity would map to clockwise
+          rotation or movement in the right/up direction. A signed speed can be independently specified for the pan and tilt component resulting in the following space description.
+        items:
+          $ref: '#/definitions/schema.Space2DDescription'
+        type: array
+      ContinuousZoomVelocitySpace:
+        description: |-
+          The generic zoom velocity space specifies a zoom factor velocity without knowing the underlying physical model. The range should be normalized from -1 to 1,
+          where a positive velocity would map to TELE direction. A generic zoom velocity space description resembles the following.
+        items:
+          $ref: '#/definitions/schema.Space1DDescription'
+        type: array
+      Extension:
+        $ref: '#/definitions/schema.PTZSpacesExtension'
+      PanTiltSpeedSpace:
+        description: |-
+          The speed space specifies the speed for a Pan/Tilt movement when moving to an absolute position or to a relative translation.
+          In contrast to the velocity spaces, speed spaces do not contain any directional information. The speed of a combined Pan/Tilt
+          movement is represented by a single non-negative scalar value.
+        items:
+          $ref: '#/definitions/schema.Space1DDescription'
+        type: array
+      RelativePanTiltTranslationSpace:
+        description: |-
+          The Generic Pan/Tilt translation space is provided by every PTZ node that supports relative Pan/Tilt, since it does not relate to a specific physical range.
+          Instead, the range should be defined as the full positive and negative translation range of the PTZ unit normalized to the range -1 to 1,
+          where positive translation would mean clockwise rotation or movement in right/up direction resulting in the following space description.
+        items:
+          $ref: '#/definitions/schema.Space2DDescription'
+        type: array
+      RelativeZoomTranslationSpace:
+        description: |-
+          The Generic Zoom Translation Space is provided by every PTZ node that supports relative Zoom, since it does not relate to a specific physical range.
+          Instead, the corresponding absolute range should be defined as the full positive and negative translation range of the Zoom normalized to the range -1 to1,
+          where a positive translation maps to a movement in TELE direction. The translation is signed to indicate direction (negative is to wide, positive is to tele).
+          There is no assumption about how the generic zoom range is mapped to magnification, FOV or other physical zoom dimension. This results in the following space description.
+        items:
+          $ref: '#/definitions/schema.Space1DDescription'
+        type: array
+      ZoomSpeedSpace:
+        description: |-
+          The speed space specifies the speed for a Zoom movement when moving to an absolute position or to a relative translation.
+          In contrast to the velocity spaces, speed spaces do not contain any directional information.
+        items:
+          $ref: '#/definitions/schema.Space1DDescription'
+        type: array
+    type: object
+  schema.PTZSpacesExtension:
+    properties:
+      items:
+        items:
+          type: string
+        type: array
+    type: object
+  schema.PTZVector:
+    properties:
+      PanTilt:
+        $ref: '#/definitions/schema.Vector2D'
+        description: Pan and tilt position. The x component corresponds to pan and
+          the y component to tilt.
+      Zoom:
+        $ref: '#/definitions/schema.Vector1D'
+        description: A zoom position.
+    type: object
+  schema.Space1DDescription:
+    properties:
+      URI:
+        description: A URI of coordinate systems.
+        type: string
+      XRange:
+        $ref: '#/definitions/schema.FloatRange'
+        description: A range of x-axis.
+    type: object
+  schema.Space2DDescription:
+    properties:
+      URI:
+        description: A URI of coordinate systems.
+        type: string
+      XRange:
+        $ref: '#/definitions/schema.FloatRange'
+        description: A range of x-axis.
+      YRange:
+        $ref: '#/definitions/schema.FloatRange'
+        description: A range of y-axis.
+    type: object
+  schema.Vector1D:
+    properties:
+      space:
+        type: string
+      x:
+        type: number
+    type: object
+  schema.Vector2D:
+    properties:
+      space:
+        type: string
+      x:
+        type: number
+      "y":
+        type: number
+    type: object
+  util.Error:
+    properties:
+      code:
+        type: integer
+      message:
+        type: string
+    type: object
+  wsdl.GetNodes:
+    type: object
+  wsdl.GetNodesResponse:
+    properties:
+      PTZNode:
+        description: A list of the existing PTZ Nodes on the device.
+        items:
+          $ref: '#/definitions/schema.PTZNode'
+        type: array
+    type: object
+  wsdl.GetPresets:
+    properties:
+      ProfileToken:
+        description: A reference to the MediaProfile where the operation should take
+          place.
+        type: string
+    type: object
+  wsdl.GetPresetsResponse:
+    properties:
+      Preset:
+        description: A list of presets which are available for the requested MediaProfile.
+        items:
+          $ref: '#/definitions/schema.PTZPreset'
+        type: array
+    type: object
+info:
+  contact:
+    email: ondrej.sery@eyetowers.cz
+    name: Ondrej Sery
+    url: https://eyetowers.cz
+  description: HTTP Server translating JSON requests into Onvif (onvif.org) WS/SOAP
+    protocol.
+  license:
+    name: MIT
+    url: https://github.com/eyetowers/gonvif/blob/master/LICENSE
+  title: Onvif JSON API Adapter
+  version: "1.0"
+paths:
+  /ptz/get-nodes:
+    post:
+      consumes:
+      - application/json
+      description: A PTZ-capable device may have multiple PTZ Nodes. The PTZ Nodes
+        may represent mechanical PTZ drivers, uploaded PTZ drivers or digital PTZ
+        drivers. PTZ Nodes are the lowest level entities in the PTZ control API and
+        reflect the supported PTZ capabilities. The PTZ Node is referenced either
+        by its name or by its reference token.
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.GetNodes'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.GetNodesResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: Get the descriptions of the available PTZ Nodes.
+      tags:
+      - ptz
+  /ptz/get-presets:
+    post:
+      consumes:
+      - application/json
+      description: The operation is supported if there is support for at least on
+        PTZ preset by the PTZNode.
+      parameters:
+      - description: JSON request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/wsdl.GetPresets'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/wsdl.GetPresetsResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/util.Error'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/util.Error'
+        "501":
+          description: Not Implemented
+          schema:
+            $ref: '#/definitions/util.Error'
+      summary: Operation to request all PTZ presets for the PTZNode in the selected
+        profile.
+      tags:
+      - ptz
+swagger: "2.0"
